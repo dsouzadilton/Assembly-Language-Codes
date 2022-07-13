@@ -1,0 +1,31 @@
+DATA SEGMENT
+    a DB 06H,14H,24H,46H,31H,67H,70H,83H,86H,11H  
+    e DB ?
+    o DB ?
+DATA ENDS
+.CODE
+START:
+    MOV AX,@DATA
+    MOV DS, AX  
+    LEA SI, a
+    MOV BH, 00H
+    MOV BL, 00H
+    MOV CL, 0AH
+    
+LABEL3:
+    MOV AL, [SI]
+    ROR AL, 01H
+    JNC LABEL1
+    INC BL
+    JMP LABEL2
+LABEL1:INC BH
+LABEL2:INC SI
+    LOOP LABEL3
+    LEA SI,e
+    MOV [SI],BH
+    LEA SI,o
+    MOV [SI],BL
+    MOV AH,4CH
+    INT 21H
+CODE ENDS
+END START
